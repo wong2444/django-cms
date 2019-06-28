@@ -1,0 +1,45 @@
+@import "../common/constants.scss";
+
+.main {
+  margin-top: 64px;
+
+  .course-nav {
+    $courseNavHeight: 54px;
+    width: 100%;
+    height: $courseNavHeight;
+    box-shadow: 0 4px 5px rgba(0, 0, 0, 0.2);
+
+    .nav-container {
+      width: $pageWidth;
+      height: $courseNavHeight; //有高度可以不用清除浮動
+      margin: 0 auto;
+      line-height: $courseNavHeight;
+
+      h3.title {
+        float: left;
+        color: #696969;
+        font-size: 24px;
+      }
+
+      .nav-list {
+        float: left;
+        margin-left: 100px;
+
+        li {
+          float: left;
+          margin-left: 40px;
+
+          a {
+            color: #888888;
+          }
+
+          &.active {
+            a {
+              color: $mainFontColor;
+            }
+          }
+        }
+      }
+    }
+  }
+}

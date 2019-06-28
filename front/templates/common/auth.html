@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>授權頁面</title>
+    <link rel="stylesheet" href="../../dist/css/common/auth.min.css">
+    <link rel="stylesheet" href="//at.alicdn.com/t/font_1251408_gbjuowqrtpd.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="../../dist/js/auth.min.js"></script>
+</head>
+<body>
+<button id="btn">登錄/注冊</button>
+<div class="mask-wrapper"><!--頁面遮罩層 -->
+    <div class="auth-wrapper"><!--注冊登錄頁面最外面的大盒子 -->
+        <div class="close-wrapper">
+        <span class="close-btn icon-close iconfont">
+
+        </span>
+        </div>
+        <div class="auth-inner-wrapper">
+            <div class="scroll-wrapper"><!-- 表格滑動層-->
+                <div class="signin-group auth-group">
+                    <div class="top-group">
+                        <span class="title">請登錄</span>
+                        <a href="javascript:void(0);" class="switch">立即注冊 > </a>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <input type="text" name="telephone" class="form-control" placeholder="請輸入手機號碼">
+                        </div>
+                        <div class="input-group">
+                            <input type="password" name="password" class="form-control" placeholder="請輸入密碼">
+                        </div>
+                        <div class="input-group">
+                            <label class="remember-label"><input type="checkbox" name="remember" value="1">記住我</label>
+                        </div>
+                        <div class="input-group">
+                            <input type="submit" class="submit-btn" value="立即登錄">
+                        </div>
+                    </div>
+                </div>
+                <div class="signup-group auth-group">
+                    <div class="top-group">
+                        <span class="title">請注冊</span>
+                        <a href="javascript:void(0);" class="switch"> < 立即登錄</a>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group">
+                            <input type="text" name="telephone" class="form-control" placeholder="手機號碼">
+                        </div>
+                        <div class="input-group">
+                            <input type="text" name="username" class="form-control" placeholder="用戶名">
+                        </div>
+                        <div class="input-group">
+                            <div class="short-input-group">
+                                <input type="text" name="img_captcha" class="form-control" placeholder="驗證碼">
+                            </div>
+                            <div class="input-group-addon">
+                                <img src="" alt="">
+                            </div>
+
+
+                        </div>
+                        <div class="input-group">
+                            <input type="password" name="password1" class="form-control" placeholder="密碼">
+                        </div>
+                        <div class="input-group">
+                            <input type="password" name="password2" class="form-control" placeholder="確認密碼">
+                        </div>
+                        <div class="input-group">
+                            <div class="short-input-group">
+                                <input type="text" name="sms_captcha" class="form-control" placeholder="短信驗證碼">
+                            </div>
+                            <div class="input-group-addon">
+                                <span class="sms-captcha-btn">發送驗證碼</span>
+                            </div>
+                        </div>
+                        <div class="input-group">
+                            <input type="submit" class="submit-btn" value="立即注冊">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

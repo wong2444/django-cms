@@ -12,7 +12,7 @@ var sourcemaps = require("gulp-sourcemaps");//找到源js文件的錯誤位置
 
 var path = {
     'html': './templates/**/',//**表示中間可有其他文件
-    'css': './src/css/',
+    'css': './src/css/**/',
     'js': './src/js/',
     'images': './src/images/',
     'css_dist': './dist/css/',
@@ -77,4 +77,5 @@ gulp.task("bs", function () {
     });
 });
 
-gulp.task("default", ['bs', 'watch'])
+// gulp.task("default", ['bs', 'watch'])
+gulp.task("default", ['watch'])

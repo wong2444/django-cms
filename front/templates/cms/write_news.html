@@ -1,0 +1,53 @@
+{% extends 'cms/base.html' %}
+
+{% block title %}發佈新聞{% endblock %}
+
+{% block content-header %}
+    <h1>發佈新聞</h1>
+{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-12">
+            <div class="box box-primary">
+                <form action="" class="form">
+                    <div class="box-body">
+                        <div class="form-group">
+                            <label for="title-form">標題</label>
+                            <input type="text" class="form-control" name="title" id="title-form">
+                        </div>
+                        <div class="form-group">
+                            <label for="category-form">分類</label>
+                            <select name="category" id="category-form" class="form-control">
+                                <option value="1">創業案例</option>
+                                <option value="2">熱點</option>
+                                <option value="3">創投資訊</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="dec-form">描述</label>
+                            <input type="text" class="form-control" name="dec" id="dec-form">
+                        </div>
+                        <div class="form-group">
+                            <label for="thumbnail-form">縮略圖</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" name="thumbnail" id="thumbnail-form">
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default">上傳圖片</button>
+                                </span>
+                            </div>
+
+                        </div>
+                        <div class="form-group">
+                            <label for="content-form">內容</label>
+                            <textarea name="content" id="content-form" cols="30" rows="10" class="form-control"></textarea>
+                        </div>
+                    </div>
+                    <div class="box-footer">
+                        <button class="btn btn-primary pull-right">發佈新聞</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
