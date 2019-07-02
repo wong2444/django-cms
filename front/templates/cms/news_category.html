@@ -4,6 +4,7 @@
 {% endblock %}
 
 {% block head %}
+
     <script src="{% static 'js/news_category.min.js' %}"></script>
 {% endblock %}
 
@@ -29,12 +30,12 @@
                         </thead>
                         <tbody>
                         {% for category in categories %}
-                            <tr>
+                            <tr data-pk="{{ category.pk }}" data-name="{{ category.name }}">
                                 <td>{{ category.name }}</td>
                                 <td>20</td>
                                 <td>
-                                    <button class="btn btn-warning btn-xs">編輯</button>
-                                    <button class="btn btn-danger btn-xs">刪除</button>
+                                    <button class="btn btn-warning btn-xs edit-btn">編輯</button>
+                                    <button class="btn btn-danger btn-xs delete-btn">刪除</button>
                                 </td>
                             </tr>
 

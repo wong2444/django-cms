@@ -99,8 +99,10 @@ Auth.prototype.listenSigninEvent = function () {
                 'remember': remember ? 1 : 0
             },
             'success': function (result) {
-                self.hideEvent()
-                window.location.reload()
+                if (result['code'] === 200) {
+                    self.hideEvent()
+                    window.location.reload()
+                }
 
             },
 
@@ -122,7 +124,9 @@ Auth.prototype.listenSmsCapthaEvent = function () {
             'url': 'account/sms_captcha/',
             'data': {'telephone': telephone},
             'success': function (result) {
-                self.smsSuccessEvent();
+                if (result['code'] === 200) {
+                    self.smsSuccessEvent();
+                }
             },
 
         })
@@ -161,7 +165,9 @@ Auth.prototype.listenSignupEvent = function () {
                 'sms_captcha': sms_captcha
             },
             'success': function (result) {
-                window.location.reload()
+                if (result['code'] === 200) {
+                    window.location.reload()
+                }
             }
 
         })
@@ -210,4 +216,32 @@ FrontBase.prototype.listenAuthBoxHover = function () {
 $(document).ready(function () {
     var frontBase = new FrontBase()
     frontBase.run()
+    if (template) {
+        template.defaults.imports.timeSince = function (dateValue) {
+            var date = new Date(dateValue)
+            var datets = date.getTime()//拿到文章發佈時間的亳秒
+            console.log(datets)
+            var nowts = (new Date()).getTime()//拿到現在時間的亳秒
+            var timestamp = (nowts - datets) / 1000//亳秒轉秒
+            if (timestamp < 60) {
+                return '剛剛'
+            } else if (timestamp > 60 && timestamp < 60 * 60) {
+                var minutes = parseInt(timestamp / 60)
+                return minutes + '分鐘前'
+            } else if (timestamp >= 60 * 60 && timestamp < 60 * 60 * 24) {
+                var hours = parseInt(timestamp / 60 / 60);
+                return hours + '小時前'
+            } else if (timestamp >= 60 * 60 * 24 && timestamp < 60 * 60 * 24 * 30) {
+                var days = parseInt(timestamp / 60 / 60 / 24);
+                return days + '天前'
+            } else {
+                var year = date.getFullYear();
+                var month = date.getMonth()
+                var day = date.getDay()
+                var hour = date.getHours()
+                var minute = date.getMinutes()
+                return year + '/' + month + '/' + day + " " + hour + ":" + minute
+            }
+        }
+    }
 })

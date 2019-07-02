@@ -140,8 +140,86 @@ Banner.prototype.listenArrowClick = function () {
     })
 }
 
+
+function Index() {
+    this.page = 2;
+    this.category_id = 0
+
+}
+
+Index.prototype.listenLoadMoreEvent = function () {
+    var self = this
+    var loadBtn = $("#load-more-btn");
+    loadBtn.click(function () {
+
+        xfzajax.get({
+            'url': '/news/list/',
+            'data': {
+                'p': self.page,
+                'category_id': self.category_id
+            },
+            'success': function (result) {
+                if (result['code'] === 200) {
+                    var newses = result['data'];
+                    if (newses.length > 0) {
+                        var tpl = template('news-item', {'newses': newses})
+                        var ul = $(".list-inner-group")
+                        ul.append(tpl)
+                        self.page += 1
+                    } else {
+                        loadBtn.hide()
+                    }
+
+                }
+            }
+        })
+    })
+}
+
+Index.prototype.listenCategorySwitchEvent = function () {
+    var self = this
+    var tabGroup = $(".list-tab");
+    var loadBtn = $("#load-more-btn");
+    tabGroup.children().click(function () {
+        //this是當前點擊的li
+        var li = $(this);
+        var category_id = li.attr("data-category")
+        var page = 1
+        xfzajax.get({
+            'url': '/news/list/',
+            'data': {
+                'category_id': category_id,
+                'p': page
+            },
+            'success': function (result) {
+                if (result['code'] === 200) {
+                    var newses = result['data'];
+                    var tpl = template("news-item", {"newses": newses})
+                    //empty將標籤下的子元素清空
+                    var newsListGroup = $(".list-inner-group");
+                    newsListGroup.empty()
+                    newsListGroup.append(tpl)
+                    self.page = 2//下一次點擊加載的頁數
+                    self.category_id = category_id
+                    li.addClass('active').siblings().removeClass('active')
+                    loadBtn.show()
+                }
+            }
+        })
+    })
+}
+
+
+Index.prototype.run = function () {
+    this.listenLoadMoreEvent()
+    this.listenCategorySwitchEvent()
+}
+
 $(document).ready(function () {
     var banner = new Banner()
     banner.run()
+
+    var index = new Index()
+    index.run()
 
 });

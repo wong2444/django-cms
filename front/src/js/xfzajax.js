@@ -47,9 +47,9 @@ var xfzajax = {
                         window.messageBox.showError(message);
                     }
                 }
-                // if (success) {
-                //     success(result);
-                // }
+                if (success) {
+                    success(result);
+                }
             }
         };
         args['fail'] = function (error) {

@@ -24,9 +24,12 @@ SECRET_KEY = 'y+zuj+=bl7=2g(mz-@6k0*-om7&8y=81k2$n8i8ri4$_9_7pv+'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# ALLOWED_HOSTS = ['127.0.0.1']
 ALLOWED_HOSTS = []
 
+INTERNAL_IPS = ['127.0.0.1', ]
 # Application definition
+
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -35,14 +38,18 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'apps.news',
-    'apps.cms',
+
     'apps.xfzauth',
+    'apps.cms',
+    'apps.news',
     'apps.course',
-    'apps.payinfo'
+    'apps.ueditor',
+    'rest_framework',
+    'debug_toolbar'
 ]
 
 MIDDLEWARE = [
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -134,4 +141,45 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'front', 'dist')
+]
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# 一次加载多少篇文章
+ONE_PAGE_NEWS_COUNT = 2
+
+UEDITOR_UPLOAD_TO_SERVER = True
+UEDITOR_UPLOAD_PATH = MEDIA_ROOT
+
+UEDITOR_CONFIG_PATH = os.path.join(BASE_DIR, 'front', 'dist', 'ueditor', 'config.json')
+
+
+# Django-Debug-Toolbar相关的配置
+INTERNAL_IPS = ['127.0.0.1']
+DEBUG_TOOLBAR_PANELS = [
+    # 代表是哪个django版本
+    'debug_toolbar.panels.versions.VersionsPanel',
+    # 用来计时的，判断加载当前页面总共花的时间
+    'debug_toolbar.panels.timer.TimerPanel',
+    # 读取django中的配置信息
+    'debug_toolbar.panels.settings.SettingsPanel',
+    # 看到当前请求头和响应头信息
+    'debug_toolbar.panels.headers.HeadersPanel',
+    # 当前请求的想信息（视图函数，Cookie信息，Session信息等）
+    'debug_toolbar.panels.request.RequestPanel',
+    # 查看SQL语句
+    'debug_toolbar.panels.sql.SQLPanel',
+    # 静态文件
+    'debug_toolbar.panels.staticfiles.StaticFilesPanel',
+    # 模板文件
+    'debug_toolbar.panels.templates.TemplatesPanel',
+    # 缓存
+    'debug_toolbar.panels.cache.CachePanel',
+    # 信号
+    'debug_toolbar.panels.signals.SignalsPanel',
+    # 日志
+    'debug_toolbar.panels.logging.LoggingPanel',
+    # 重定向
+    'debug_toolbar.panels.redirects.RedirectsPanel',
 ]
