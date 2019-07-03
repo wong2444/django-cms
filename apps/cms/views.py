@@ -2,11 +2,12 @@ from django.shortcuts import render
 from django.contrib.admin.views.decorators import staff_member_required
 from django.views.generic import View
 from django.views.decorators.http import require_POST, require_GET
-from apps.news.models import NewsCategory, News
+from apps.news.models import NewsCategory, News, Banner
 from utils import restful
-from .forms import EditNewsCategoryForm, WriteNewsForm
+from .forms import EditNewsCategoryForm, WriteNewsForm, AddBannerForm, EditBannerForm
 import os
 from django.conf import settings
+from apps.news.serializers import BannerSerializer
 
 
 # Create your views here.
@@ -97,3 +98,40 @@ def upload_file(request):
 
 def banners(request):
     return render(request, 'cms/banners.html')
+
+
+def banner_list(request):
+    banners = Banner.objects.all()
+    serialize = BannerSerializer(banners, many=True)
+    return restful.result(data=serialize.data)
+
+
+def add_banner(request):
+    form = AddBannerForm(request.POST)
+    if form.is_valid():
+        priority = form.cleaned_data.get('priority')
+        image_url = form.cleaned_data.get('image_url')
+        link_to = form.cleaned_data.get('link_to')
+        banner = Banner.objects.create(priority=priority, image_url=image_url, link_to=link_to)
+        return restful.result(data={'banner_id': banner.pk})
+    else:
+        return restful.params_error(message=form.get_errors())
+
+
+def delete_banner(request):
+    banner_id = request.POST.get('banner_id')
+    Banner.objects.filter(pk=banner_id).delete()
+    return restful.ok()
+
+
+def edit_banner(request):
+    form = EditBannerForm(request.POST)
+    if form.is_valid():
+        pk = form.cleaned_data.get('pk')
+        image_url = form.cleaned_data.get('image_url')
+        link_to = form.cleaned_data.get('link_to')
+        priority = form.cleaned_data.get('priority')
+        Banner.objects.filter(pk=pk).update(image_url=image_url, link_to=link_to, priority=priority)
+        return restful.ok()
+    else:
+        return restful.params_error(message=form.get_errors())

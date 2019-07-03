@@ -29,7 +29,7 @@ Banner.prototype.animate = function () {
     } else {
         index = this.index - 1;//小點下標是輪播圖下標-1
     }
-    this.bannerUl.animate({'left': -798 * this.index}, 500)//js動畫過渡
+    this.bannerUl.stop().animate({'left': -798 * this.index}, 500)//js動畫過渡
     this.pageControl.children("li").eq(index).addClass("active").siblings().removeClass("active")
 }
 
@@ -59,7 +59,7 @@ Banner.prototype.listenPageControl = function () {//點擊小點轉輪播圖
             } else {
                 self.index = index + 1;//小點下標是輪播圖下標-1
             }
-            self.bannerUl.animate({'left': -798 * self.index}, 500)//js動畫過渡
+            self.bannerUl.stop().animate({'left': -798 * self.index}, 500)//js動畫過渡
             self.pageControl.children("li").eq(index).addClass("active").siblings().removeClass("active")
         })
     })

@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import News, NewsCategory, Comment
+from .models import News, NewsCategory, Comment,Banner
 from django.conf import settings
 from .serializers import NewsSerializer, CommentSerizlizer
 from utils import restful
@@ -15,7 +15,8 @@ def index(request):
     categories = NewsCategory.objects.all()
     context = {
         'newes': newses,
-        'categories': categories
+        'categories': categories,
+        'banners': Banner.objects.all()
     }
     return render(request, 'news/index.html', context=context)
 
@@ -46,6 +47,7 @@ def news_detail(request, news_id):
         'news': news
     }
     return render(request, 'news/news_detail.html', context=context)
+
 
 @xfz_login_required
 def public_comment(request):
