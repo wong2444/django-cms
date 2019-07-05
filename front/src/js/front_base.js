@@ -216,7 +216,7 @@ FrontBase.prototype.listenAuthBoxHover = function () {
 $(document).ready(function () {
     var frontBase = new FrontBase()
     frontBase.run()
-    if (template) {
+    if (window.template) {
         template.defaults.imports.timeSince = function (dateValue) {
             var date = new Date(dateValue)
             var datets = date.getTime()//拿到文章發佈時間的亳秒

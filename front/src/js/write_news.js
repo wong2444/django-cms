@@ -123,19 +123,29 @@ News.prototype.listenSubmitEvent = function () {
     var submitBtn = $("#submit-btn")
     submitBtn.click(function (event) {
         event.preventDefault();
+        var btn = $(this)
+        var pk = btn.attr('data-news-id')
+        var url = ''
+        if (pk) {
+            url = '/cms/edit_news/'
+        } else {
+            url = '/cms/write_news/'
+        }
+
         var title = $("input[name='title']").val()
         var category = $("select[name='category']").val()
         var desc = $("input[name='desc']").val()
         var thumbnail = $("input[name='thumbnail']").val()
         var content = window.editor.txt.html()
         xfzajax.post({
-            'url': '/cms/write_news/',
+            'url': url,
             'data': {
                 'title': title,
                 'category': category,
                 'desc': desc,
                 'thumbnail': thumbnail,
-                'content': content
+                'content': content,
+                'pk': pk
             },
             'success': function (result) {
                 if (result['code'] === 200) {

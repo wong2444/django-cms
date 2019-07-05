@@ -1,6 +1,12 @@
 {% extends 'cms/base.html' %}
 
-{% block title %}發佈新聞{% endblock %}
+{% block title %}
+    {% if  news %}
+        編輯新聞
+    {% else %}
+        發佈新聞
+    {% endif %}
+{% endblock %}
 {% block head %}
     <script src="https://www.gstatic.com/firebasejs/6.2.4/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/5.10.1/firebase-storage.js"></script>
@@ -10,7 +16,12 @@
 
 {% endblock %}
 {% block content-header %}
-    <h1>發佈新聞</h1>
+    {% if  news %}
+        <h1>編輯新聞</h1>
+    {% else %}
+        <h1>編輯新聞</h1>
+    {% endif %}
+
 {% endblock %}
 {% block content %}
     <div class="row">
@@ -20,25 +31,47 @@
                     <div class="box-body">
                         <div class="form-group">
                             <label for="title-form">標題</label>
-                            <input type="text" class="form-control" name="title" id="title-form">
+                            {% if news %}
+                                <input type="text" class="form-control" name="title" id="title-form"
+                                       value="{{ news.title }}">
+                            {% else %}
+                                <input type="text" class="form-control" name="title" id="title-form">
+                            {% endif %}
+
                         </div>
                         <div class="form-group">
                             <label for="category-form">分類</label>
                             <select name="category" id="category-form" class="form-control">
                                 {% for category in categories %}
-                                    <option value="{{ category.pk }}">{{ category.name }}</option>
+                                    {% if news and news.category_id == category.pk %}
+                                        <option value="{{ category.pk }}" selected>{{ category.name }}</option>
+                                    {% else %}
+                                        <option value="{{ category.pk }}">{{ category.name }}</option>
+                                    {% endif %}
                                 {% endfor %}
 
                             </select>
                         </div>
                         <div class="form-group">
                             <label for="dec-form">描述</label>
-                            <input type="text" class="form-control" name="desc" id="dec-form">
+                            {% if news %}
+                                <input type="text" class="form-control" name="desc" id="dec-form"
+                                       value="{{ news.desc }}">
+                            {% else %}
+                                <input type="text" class="form-control" name="desc" id="dec-form">
+                            {% endif %}
+
                         </div>
                         <div class="form-group">
                             <label for="thumbnail-form">縮略圖</label>
                             <div class="input-group">
-                                <input type="text" class="form-control" name="thumbnail" id="thumbnail-form">
+                                {% if news %}
+                                    <input type="text" class="form-control" name="thumbnail" id="thumbnail-form"
+                                           value="{{ news.thumbnail }}">
+                                {% else %}
+                                    <input type="text" class="form-control" name="thumbnail" id="thumbnail-form">
+                                {% endif %}
+
                                 <span class="input-group-btn">
                                     <label class="btn btn-default btn-file">
                                        上傳圖片<input hidden type="file" id="thumbnail-btn">
@@ -58,12 +91,22 @@
                         </div>
                         <div class="form-group">
                             <label for="content-form">內容</label>
-                            <div id="editor"></div>
+                            {% if news %}
+                                <div id="editor">{{ news.content|safe }}</div>
+                            {% else %}
+                                <div id="editor"></div>
+                            {% endif %}
+
 
                         </div>
                     </div>
                     <div class="box-footer">
-                        <button id="submit-btn" class="btn btn-primary pull-right">發佈新聞</button>
+                        {% if news %}
+                            <button id="submit-btn" class="btn btn-primary pull-right" data-news-id="{{ news.pk }}">編輯新聞</button>
+                        {% else %}
+                            <button id="submit-btn" class="btn btn-primary pull-right">發佈新聞</button>
+                        {% endif %}
+
                     </div>
                 </form>
             </div>
