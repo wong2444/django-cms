@@ -1,11 +1,12 @@
 from django.shortcuts import render
-from .models import News, NewsCategory, Comment,Banner
+from .models import News, NewsCategory, Comment, Banner
 from django.conf import settings
 from .serializers import NewsSerializer, CommentSerizlizer
 from utils import restful
 from django.http import Http404
 from .forms import PublicCommentForm
 from apps.xfzauth.decorators import xfz_login_required
+from django.db.models import Q
 
 
 # Create your views here.
@@ -65,4 +66,9 @@ def public_comment(request):
 
 
 def search(request):
-    return render(request, 'search/search.html')
+    q = request.GET.get('q')
+    context = {}
+    if q:
+        newses = News.objects.select_related('category', 'author').filter(Q(title__icontains=q) | Q(content__icontains=q))
+        context['newses'] = newses
+    return render(request, 'search/search1.html', context=context)

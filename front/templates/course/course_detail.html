@@ -36,7 +36,8 @@
                             {% if course.price > 0 %}
                                 {% if not buyed %}
                                     <span class="price pay">${{ course.price }}</span>
-                                    <a href="#" class="buy-btn">立即購買</a>
+                                    <a href="{% url 'course:course_order' course_id=course.pk %}"
+                                       class="buy-btn">立即購買</a>
                                 {% endif %}
                             {% else %}
                                 <span class="price free">免费</span>
@@ -47,8 +48,13 @@
                     </div>
                 </div>
                 <div class="video-group">
-                    <span id="video-info" hidden data-video-url="{{ course.video_url }}"
-                          data-cover-url="{{ course.cover_url }}"></span>
+                    {% if courseOrder %}
+                        <span id="video-info" hidden data-video-url="{{ course.video_url }}"
+                              data-cover-url="{{ course.cover_url }}" data-course-id="{{ course.pk }}"></span>
+                    {% else %}
+                        <span id="video-info" hidden data-video-url=""
+                              data-cover-url="" data-course-id="{{ course.pk }}"></span>
+                    {% endif %}
                     <div class="prism-player" id="player-con"></div>
                 </div>
             </div>

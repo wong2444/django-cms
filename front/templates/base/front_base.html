@@ -22,8 +22,8 @@
         <ul class="nav">
             <li class="active"><a href="/">創業資訊</a></li>
             <li><a href="{% url 'course:course_index' %}">創業課堂</a></li>
-            <li><a href="#">付費資訊</a></li>
-            <li><a href="#">搜索</a></li>
+            <li><a href="{% url 'payinfo:index' %}">付費資訊</a></li>
+            <li><a href="/search/">搜索</a></li>
         </ul>
         <div class="auth-box">
             <i class="icon-person iconfont"></i>
@@ -35,7 +35,7 @@
                     <i class="triangle"></i>
                     {% if user.is_staff %}
                         <a href="{% url 'cms:index' %}">管理系统</a>
-{#                        <a href="#">管理系统</a>#}
+                        {#                        <a href="#">管理系统</a>#}
                     {% endif %}
                     <a href="{% url 'xfzauth:logout' %}">退出登录</a>
 

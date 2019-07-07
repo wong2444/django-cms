@@ -24,10 +24,9 @@ SECRET_KEY = 'y+zuj+=bl7=2g(mz-@6k0*-om7&8y=81k2$n8i8ri4$_9_7pv+'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-# ALLOWED_HOSTS = ['127.0.0.1']
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['127.0.0.1', '35.201.132.112']
 
-INTERNAL_IPS = ['127.0.0.1', ]
+# INTERNAL_IPS = ['127.0.0.1', ]
 # Application definition
 
 
@@ -44,8 +43,10 @@ INSTALLED_APPS = [
     'apps.news',
     'apps.course',
     'apps.ueditor',
+    'apps.payinfo',
     'rest_framework',
-    'debug_toolbar'
+    'debug_toolbar',
+    'haystack'
 ]
 
 MIDDLEWARE = [
@@ -53,7 +54,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -154,7 +155,6 @@ UEDITOR_UPLOAD_PATH = MEDIA_ROOT
 
 UEDITOR_CONFIG_PATH = os.path.join(BASE_DIR, 'front', 'dist', 'ueditor', 'config.json')
 
-
 # Django-Debug-Toolbar相关的配置
 INTERNAL_IPS = ['127.0.0.1']
 DEBUG_TOOLBAR_PANELS = [
@@ -183,3 +183,14 @@ DEBUG_TOOLBAR_PANELS = [
     # 重定向
     'debug_toolbar.panels.redirects.RedirectsPanel',
 ]
+
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        # 設置搜索引擎
+        'ENGINE': 'apps.news.whoosh_cn_backend.WhooshEngine',
+        # 設置搜索文件位置
+        'PATH': os.path.join(BASE_DIR, 'whoosh_index')
+    }
+}
+
+HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
