@@ -24,6 +24,7 @@ SECRET_KEY = 'y+zuj+=bl7=2g(mz-@6k0*-om7&8y=81k2$n8i8ri4$_9_7pv+'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+# 加域名也可(www.xxx.com)
 ALLOWED_HOSTS = ['127.0.0.1', '35.201.132.112']
 
 # INTERNAL_IPS = ['127.0.0.1', ]
@@ -46,7 +47,7 @@ INSTALLED_APPS = [
     'apps.payinfo',
     'rest_framework',
     'debug_toolbar',
-    'haystack'
+    # 'haystack'
 ]
 
 MIDDLEWARE = [
@@ -139,10 +140,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.0/howto/static-files/
 
 STATIC_URL = '/static/'
-
+# STATIC_ROOT = os.path.join(BASE_DIR, 'front', 'dist')
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'front', 'dist')
 ]
+# 方便ngnix收集
+
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')

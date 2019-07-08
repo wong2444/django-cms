@@ -1,7 +1,5 @@
 from django.shortcuts import render
-from django.contrib.admin.views.decorators import staff_member_required
 from django.views.generic import View
-from django.views.decorators.http import require_POST, require_GET
 from apps.news.models import NewsCategory, News, Banner
 from utils import restful
 from .forms import EditNewsCategoryForm, WriteNewsForm, AddBannerForm, EditBannerForm, EditNewsForm
@@ -13,6 +11,11 @@ from datetime import datetime
 from django.utils.timezone import make_aware
 from urllib import parse
 
+from django.views.decorators.http import require_POST, require_GET
+from django.contrib.admin.views.decorators import staff_member_required
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import permission_required
+
 
 # Create your views here.
 @staff_member_required(login_url='index')
@@ -20,6 +23,7 @@ def index(request):
     return render(request, 'cms/index.html')
 
 
+@method_decorator(permission_required(perm="news.change_news", login_url='/'), name='dispatch')
 class NewsListView(View):
     def get(self, request):
         page = int(request.GET.get('p', 1))
@@ -99,6 +103,7 @@ class NewsListView(View):
         }
 
 
+@method_decorator(permission_required(perm="news.add_news", login_url='/'), name='dispatch')
 class WriteNewsView(View):
     def get(self, request):
         categories = NewsCategory.objects.all()
@@ -123,6 +128,7 @@ class WriteNewsView(View):
             return restful.params_error(message=form.get_errors())
 
 
+@method_decorator(permission_required(perm="news.change_news", login_url='/'), name='dispatch')
 class EditNewsView(View):
     def get(self, request):
         news_id = request.GET.get('news_id')
@@ -151,6 +157,7 @@ class EditNewsView(View):
 
 
 @require_POST
+@permission_required(perm="news.delete_news", login_url='/')
 def delete_news(request):
     news_id = request.POST.get('news_id')
     News.objects.filter(pk=news_id).delete()
@@ -158,6 +165,7 @@ def delete_news(request):
 
 
 @require_GET
+@permission_required(perm="news.add_newscategory", login_url='/')
 def news_category(request):
     categories = NewsCategory.objects.all()
     context = {
@@ -167,6 +175,7 @@ def news_category(request):
 
 
 @require_POST
+@permission_required(perm="news.add_newscategory", login_url='/')
 def add_news_category(request):
     name = request.POST.get('name')
     exists = NewsCategory.objects.filter(name=name).exists()
@@ -178,6 +187,7 @@ def add_news_category(request):
 
 
 @require_POST
+@permission_required(perm="news.change_newscategory", login_url='/')
 def edit_news_category(request):
     form = EditNewsCategoryForm(request.POST)
     if form.is_valid():
@@ -193,6 +203,7 @@ def edit_news_category(request):
 
 
 @require_POST
+@permission_required(perm="news.delete_newscategory", login_url='/')
 def delete_news_category(request):
     pk = request.POST.get('pk')
     try:
@@ -203,6 +214,7 @@ def delete_news_category(request):
 
 
 @require_POST
+@staff_member_required(login_url='index')
 def upload_file(request):
     file = request.FILES.get('file')
     name = file.name
@@ -213,16 +225,19 @@ def upload_file(request):
     return restful.result(data={'url': url})
 
 
+@permission_required(perm="news.add_banner", login_url='/')
 def banners(request):
     return render(request, 'cms/banners.html')
 
 
+@permission_required(perm="news.add_newscategory", login_url='/')
 def banner_list(request):
     banners = Banner.objects.all()
     serialize = BannerSerializer(banners, many=True)
     return restful.result(data=serialize.data)
 
 
+@permission_required(perm="news.add_newscategory", login_url='/')
 def add_banner(request):
     form = AddBannerForm(request.POST)
     if form.is_valid():
@@ -235,12 +250,14 @@ def add_banner(request):
         return restful.params_error(message=form.get_errors())
 
 
+@permission_required(perm="news.delete_newscategory", login_url='/')
 def delete_banner(request):
     banner_id = request.POST.get('banner_id')
     Banner.objects.filter(pk=banner_id).delete()
     return restful.ok()
 
 
+@permission_required(perm="news.change_newscategory", login_url='/')
 def edit_banner(request):
     form = EditBannerForm(request.POST)
     if form.is_valid():

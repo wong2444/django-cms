@@ -22,7 +22,8 @@ from django.conf import settings
 urlpatterns = [
                   path('', views.index, name='index'),
                   # path('ueditor/', include('apps.ueditor.urls')),
-                  path('search/', include('haystack.urls')),
+                  # path('search/', include('haystack.urls')),
+                  path('search/', views.search, name='search'),
                   path('news/', include('apps.news.urls')),
                   path('payinfo/', include('apps.payinfo.urls')),
                   path('cms/', include('apps.cms.urls')),

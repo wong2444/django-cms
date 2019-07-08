@@ -201,6 +201,7 @@ function FrontBase() {
 
 FrontBase.prototype.run = function () {
     this.listenAuthBoxHover()
+    this.listenOptionClick()
 }
 
 FrontBase.prototype.listenAuthBoxHover = function () {
@@ -213,8 +214,25 @@ FrontBase.prototype.listenAuthBoxHover = function () {
     })
 }
 
+FrontBase.prototype.listenOptionClick = function () {
+    $(".nav li a").each(function () {
+        $this = $(this);
+        if ($this[0].href === String(window.location)) {
+            $(".nav li").removeClass("active");
+            $this.parent().addClass("active");  //active表示被选中效果的类名
+        }
+    });
+
+    $(".nav li").click(function () {
+        $(this).addClass('active').siblings().removeClass('active')
+    })
+
+}
+
+
 $(document).ready(function () {
     var frontBase = new FrontBase()
+
     frontBase.run()
     if (window.template) {
         template.defaults.imports.timeSince = function (dateValue) {

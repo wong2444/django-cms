@@ -10,6 +10,7 @@ from django.views.decorators.csrf import csrf_exempt
 
 
 # Create your views here.
+
 def course_index(request):
     context = {
         'courses': Course.objects.all()

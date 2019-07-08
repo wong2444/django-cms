@@ -4,8 +4,11 @@ from .forms import PubCourseForm
 from apps.course.models import Course, CourseCategory, Teacher
 from django.views.generic import View
 from utils import restful
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import permission_required
 
 
+@method_decorator(permission_required(perm="course.change_course", login_url='/'), name='dispatch')
 class PubCourse(View):
     def get(self, request):
         context = {
